@@ -4,22 +4,6 @@ import torchvision.transforms as transforms
 import timm
 from model.models import *
 
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-
-
-class normalized_and_stack(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-
-        self.transform = transforms.Compose([transforms.ToTensor(),
-                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
-    def forward(self, crops):
-        normalized_crops = [self.transform(crop) for crop in crops]
-
-        return torch.stack(normalized_crops)
-
 
 if __name__ == "__main__":
     model_num = 10                      # student: 10, teacher: 1, proposed: 10
@@ -27,7 +11,7 @@ if __name__ == "__main__":
     experiment = 'proposed'             # student, teacher, proposed
     model_name = 'resnet101_resnet18'   # student: resnet18, teacher: dinov2_vitl14 or resnet101, proposed: dinov2_vitl14_resnet18 or resnet101_resnet18
 
-    for s in range(9,model_num):
+    for s in range(model_num):
         # Check if GPU is available
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(device)
@@ -36,9 +20,9 @@ if __name__ == "__main__":
         transform_test = transforms.Compose([
             transforms.Resize(256),
             transforms.TenCrop(224),
-            # transforms.Lambda(lambda crops: torch.stack([transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(transforms.ToTensor()(crop)) for crop in crops]))
-            normalized_and_stack()
+            transforms.Lambda(lambda crops: torch.stack([transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(transforms.ToTensor()(crop)) for crop in crops]))
         ])
+
         # Load the CIFAR-10 test dataset
         testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
         testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=16)

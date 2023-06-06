@@ -4,10 +4,8 @@
 
 # Requirement
  - pytorch: conda install pytorch==1.13.0 torchvision==0.14.0 torchaudio==0.13.0 pytorch-cuda=11.7 -c pytorch -c nvidia
- - tensorboard: conda install -c conda-forge tensorboard
  - timm: conda install -c conda-forge timm
- - scipy: conda install -c anaconda scipy
-
+ 
 # Run
 - Baseline model
   ```
@@ -111,16 +109,16 @@
     - Learning rate = 0.01
     - model_num = 10
   - Train
-    - Criterion = knowledge distillation
+    - Criterion = **knowledge distillation**
       - alpha: 0.9 to 0 -> numpy.linspace(0.9, 0, Epochs)
       - tau: 10
     - Optimizer = SGD with momentum=0.9
-    - Scheduler = CosineAnnealingLR with T_max=50, eta_min=1e-7
+    - Scheduler = **CosineAnnealingLR** with T_max=50, eta_min=1e-7
   - Accuracy
    
-    | model_num |   1   |   2   |   3   |   4   |   5   |   6   |   7   | 8  |   9   |  10   |
-    |:---------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:--:|:-----:|:-----:|
-    | accuracy  | 97.05 | 97.15 | 97.33 | 97.36 | 97.16 | 97.24 | 97.24 |    |  |  |
+    | model_num |   1   |   2   |   3   |   4   |   5   |   6   |   7   |   8   |   9   |  10   |
+    |:---------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+    | accuracy  | 97.05 | 97.15 | 97.33 | 97.36 | 97.16 | 97.24 | 97.24 | 97.29 | 97.37 | 97.36 |
   
   - Teacher network: ResNet-101 with pretrained weights from **CIFAR-10**
   - Student network: ResNet-18 with pretrained weights from **CIFAR-10**
@@ -128,9 +126,15 @@
     - Epochs = 50
     - Learning rate = 0.01
     - model_num = 10
-    - knowledge distillation
+    - **knowledge distillation**
       - alpha: 0.9 to 0 (numpy.linspace(0.9, 0, 50))
       - tau: 10
+  - Train
+    - Criterion = **knowledge distillation**
+      - alpha: 0.9 to 0 -> numpy.linspace(0.9, 0, Epochs)
+      - tau: 10
+    - Optimizer = SGD with momentum=0.9
+    - Scheduler = **CosineAnnealingLR** with T_max=50, eta_min=1e-7
   - Accuracy
    
     | model_num |   1   |   2   |   3   |   4   |   5   |   6   |   7   |   8   |     9     |  10   |
