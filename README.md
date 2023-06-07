@@ -15,7 +15,7 @@
 - proposed model
 
   ```
-  python train_student              # train student network
+  python train_student.py           # train student network
   python train_teacher.py           # train teacher network
   python knowledge distillation.py  # train proposed network using knowledge distillation
   python ensemble.py                # before test set to parameters for each task(student, teacher, proposed)
