@@ -9,7 +9,7 @@
 # Run
 - Baseline model
   ```
-  python ./baseline/train_base
+  python ./baseline/train_base.py
   python ./baseline/ensemble_base.py
   ```
 - proposed model
